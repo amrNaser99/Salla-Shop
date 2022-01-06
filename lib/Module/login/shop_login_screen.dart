@@ -18,6 +18,7 @@ class ShopLoginScreen extends StatefulWidget {
 }
 
 class _ShopLoginScreenState extends State<ShopLoginScreen> {
+
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var isPassword = true;

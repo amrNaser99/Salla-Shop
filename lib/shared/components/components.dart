@@ -46,7 +46,7 @@ Widget defaultTextFormField({
   required String labelText,
   String? hintText,
   required IconData prefixIcon,
-  required FormFieldValidator<String> validate,
+  FormFieldValidator<String>? validate,
   IconData? suffixIcon,
   void Function(String)? onSubmitted,
   void Function(String)? onChanged,

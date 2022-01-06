@@ -17,18 +17,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   List<BoardingModel> boardingList = [
     BoardingModel(
       image: 'assets/images/dark_logo.png',
-      title: 'onBoarding title 1',
-      body: 'Shop Easy',
+      title: 'Shop Easy',
+      body: 'You Can Shop Easy',
     ),
     BoardingModel(
       image: 'assets/images/dark_logo.png',
-      title: 'onBoarding title 2',
-      body: 'Shop Anytime',
+      title: 'Shop Anytime',
+      body: 'You Can Shop Anytime',
     ),
     BoardingModel(
       image: 'assets/images/dark_logo.png',
-      title: 'OnBoarding title 3',
-      body: 'Shop Anywhere',
+      title: 'Shop Anywhere',
+      body: 'You Can Shop Anywhere',
     ),
   ];
 
@@ -36,18 +36,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   bool isLast = false;
 
-  void submit(){
-    CacheHelper.saveData(key: 'onBoarding', value: true).then((value)
-    {
-      if(value){
+  void submit() {
+    CacheHelper.saveData(key: 'onBoarding', value: true).then((value) {
+      if (value) {
         NavigateAndFinish(
           context,
           const ShopLoginScreen(),
         );
       }
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +112,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   onPressed: () {
                     if (isLast == true) {
                       submit();
-
                     } else {
                       boardingController.nextPage(
                         duration: const Duration(milliseconds: 750),
@@ -170,4 +168,3 @@ Widget buildBoardingItem(BoardingModel model) => Container(
         ],
       ),
     );
-

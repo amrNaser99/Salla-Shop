@@ -10,26 +10,27 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
 
   static ShopLoginCubit get(context) => BlocProvider.of(context);
 
-  late ShopLoginModel loginModel ;
+  late ShopLoginModel loginModel;
 
   void userLogin({
-  required String email,
-  required String password,
-}) {
+    required String email,
+    required String password,
+  }) {
     emit(ShopLoginLoadingStates());
     print('in userLogin - next DioPostData ');
     DioHelper.postData(
       url: LOGIN,
       data: {
-        'email':email,
-        'password':password,
+        'email': email,
+        'password': password,
       },
     ).then((value) {
       print(value.data);
-      loginModel =  ShopLoginModel.fromJson(value.data);
-        emit(ShopLoginSuccessStates(loginModel));
-    }).catchError((error){
+      loginModel = ShopLoginModel.fromJson(value.data);
+      emit(ShopLoginSuccessStates(loginModel));
+    }).catchError((error) {
       emit(ShopLoginErrorStates(error.toString()));
     });
   }
+
 }

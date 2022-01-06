@@ -17,7 +17,7 @@ class ShopLayout extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Salla Shop',style:TextStyle( fontSize: 20.0),),
+              title: const Text('Salla',style:TextStyle( fontSize: 20.0),),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.search),

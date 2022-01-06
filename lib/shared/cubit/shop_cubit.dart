@@ -42,8 +42,8 @@ class ShopCubit extends Cubit<ShopStates> {
       homeModel = HomeModel.fromJson(value.data);
       print('in then fun in getHomeData after homemodel');
 
-      print(homeModel?.data?.banners?.length);
-      print(homeModel?.data?.banners![1].image);
+      print(homeModel?.data?.products?.length);
+      print(homeModel?.data?.products![1].image);
       print(homeModel.toString());
       emit(ShopHomeDataSuccessState());
     }).catchError((error) {

@@ -12,6 +12,7 @@ class ShopLoginModel {
     status = json['status'];
     message = json['message'];
     data = Data.fromJson(json['data']);
+
   }
 
   Map<String, dynamic> toJson() {
