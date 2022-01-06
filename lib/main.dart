@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/layout/shop_layout.dart';
 
 import 'package:shop_app/shared/bloc_observer.dart';
 import 'package:shop_app/shared/components/constants.dart';
@@ -11,7 +12,6 @@ import 'Module/login/shop_login_screen.dart';
 import 'Module/onBoarding/onBoarding.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   DioHelper.init();
@@ -21,23 +21,35 @@ void main() async {
   onBoarding = CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'token');
   print('onBoarding $onBoarding');
-  print ('token $token');
+  print('token $token');
 
-  BlocOverrides.runZoned(()
-  {
-      runApp(MyApp(onBoarding));
-      },
+  Widget widget;
+  if (onBoarding == true) {
+    if (token != null) {
+      widget = const ShopLayout();
+    } else {
+      widget = const ShopLoginScreen();
+    }
+  } else {
+    widget = const OnBoardingScreen();
+  }
+
+
+  BlocOverrides.runZoned(
+    () {
+      runApp(MyApp(
+        onBoarding,
+        widget,
+      ));
+    },
     blocObserver: MyBlocObserver(),
   );
 }
 
 class MyApp extends StatelessWidget {
-
-
-  bool? onBoarding =false;
-
-  MyApp(this.onBoarding) ;
-
+  bool? onBoarding = false;
+  Widget startWidget;
+  MyApp(this.onBoarding, this.startWidget, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +59,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.light,
-      home:  onBoarding ==true ? const ShopLoginScreen() : const OnBoardingScreen(),
+      home: startWidget,
       // onBoarding ==true ? const ShopLoginScreen() : const OnBoardingScreen(),
     );
   }

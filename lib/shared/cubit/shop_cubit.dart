@@ -18,7 +18,7 @@ class ShopCubit extends Cubit<ShopStates> {
   int currentIndex = 0;
 
   List<Widget> screens = [
-    ProductsScreen(),
+    const ProductsScreen(),
     CategoryScreen(),
     FavouriteScreen(),
     SettingScreen(),
@@ -29,17 +29,22 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopChangeNavBarState());
   }
 
-  late HomeModel homeModel;
+  HomeModel? homeModel ;
 
   void geHomeData() {
     emit(ShopLoadingHomeDataState());
     print('getData using api....');
     DioHelper.getData(
       url: HOME,
+      token: token ,
     ).then((value) {
+      print('in then fun in getHomeData');
       homeModel = HomeModel.fromJson(value.data);
-      print(homeModel.data?.banners[0].image);
-      printFullText(homeModel.toString());
+      print('in then fun in getHomeData after homemodel');
+
+      print(homeModel?.data?.banners?.length);
+      print(homeModel?.data?.banners![1].image);
+      print(homeModel.toString());
       emit(ShopHomeDataSuccessState());
     }).catchError((error) {
       print(error.toString());
