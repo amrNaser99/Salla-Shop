@@ -1,13 +1,13 @@
 class ShopLoginModel {
-  late final bool status;
-  late final String message;
-  late final Data data;
-
   ShopLoginModel({
     required this.status,
     required this.message,
     required this.data,
   });
+  late final bool status;
+  late final String message;
+  late final Data data;
+
   ShopLoginModel.fromJson(Map<String, dynamic> json){
     status = json['status'];
     message = json['message'];
@@ -31,6 +31,8 @@ class Data {
     required this.email,
     required this.phone,
     required this.image,
+    required this.points,
+    required this.credit,
     required this.token,
   });
   late final int id;
@@ -38,6 +40,8 @@ class Data {
   late final String email;
   late final String phone;
   late final String image;
+  late final int points;
+  late final int credit;
   late final String token;
 
   Data.fromJson(Map<String, dynamic> json){
@@ -46,6 +50,8 @@ class Data {
     email = json['email'];
     phone = json['phone'];
     image = json['image'];
+    points = json['points'];
+    credit = json['credit'];
     token = json['token'];
   }
 
@@ -56,6 +62,8 @@ class Data {
     _data['email'] = email;
     _data['phone'] = phone;
     _data['image'] = image;
+    _data['points'] = points;
+    _data['credit'] = credit;
     _data['token'] = token;
     return _data;
   }
@@ -79,12 +87,16 @@ class Data {
 //   late String id;
 //   late String email;
 //   late String phone;
+//   late int points;
+//   late int credit;
 //   late final String token;
 //
 //   UserData({
 //     required this.id,
 //     required this.email,
 //     required this.phone,
+//     required this.points,
+//     required this.credit,
 //     required this.token,
 //       });
 //
@@ -93,6 +105,8 @@ class Data {
 //     id = json['id'];
 //     email = json['email'];
 //     phone = json['phone'];
+//     points = json['points'];
+//     credit = json['credit'];
 //     token = json['token'];
 //   }
 //

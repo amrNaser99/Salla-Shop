@@ -4,6 +4,7 @@ import 'package:shop_app/Module/nav_bar/categories/categories_screen.dart';
 import 'package:shop_app/Module/nav_bar/favourite/favourite_screen.dart';
 import 'package:shop_app/Module/nav_bar/home/products_screen.dart';
 import 'package:shop_app/Module/nav_bar/setting/setting_screen.dart';
+import 'package:shop_app/model/categories_model.dart';
 import 'package:shop_app/model/home_model.dart';
 import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/cubit/shop_states.dart';
@@ -49,6 +50,30 @@ class ShopCubit extends Cubit<ShopStates> {
     }).catchError((error) {
       print(error.toString());
       emit(ShopHomeDataErrorState(error.toString()));
+    });
+  }
+
+
+  CategoriesModel? categoriesModel ;
+
+  void getCategoriesData() {
+    emit(ShopLoadingCategoriesState());
+    print('getCategoriesData using api....');
+    DioHelper.getData(
+      url: HOME,
+      token: token ,
+    ).then((value) {
+      print('in then fun in getCatData');
+      categoriesModel = CategoriesModel.fromJson(value.data);
+      print('Sending Data in then fun  after CategoriesModel model');
+
+      print(categoriesModel?.data.data.length);
+      print(categoriesModel?.data.data[1].image);
+      print(categoriesModel?.data.toString());
+      emit(ShopCategoriesSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopCategoriesErrorState(error.toString()));
     });
   }
 }
