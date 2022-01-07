@@ -77,11 +77,11 @@ class ProductsScreen extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) =>
-                          buildCategoryItem(categoriesModel.data.data[index]),
+                          buildCategoryItem(categoriesModel.data!.data![index]),
                       separatorBuilder: (context, index) => const SizedBox(
                         width: 10.0,
                       ),
-                      itemCount: 10,
+                      itemCount: categoriesModel.data!.data!.length,
                     ),
                   ),
                   const SizedBox(
