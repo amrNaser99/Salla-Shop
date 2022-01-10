@@ -10,6 +10,8 @@ import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
+import '../../layout/shop_layout.dart';
+
 class ShopLoginScreen extends StatefulWidget {
   const ShopLoginScreen({Key? key}) : super(key: key);
 

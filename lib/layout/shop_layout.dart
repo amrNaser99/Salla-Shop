@@ -11,7 +11,7 @@ class ShopLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ShopCubit()..geHomeData()..getCategoriesData(),
+      create: (BuildContext context) => ShopCubit()..geHomeData()..getCategoriesData()..getFavourites(),
       child: BlocConsumer<ShopCubit, ShopStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -24,7 +24,7 @@ class ShopLayout extends StatelessWidget {
                   onPressed: () {
                     NavigateTo(
                       context,
-                      SearchScreen(),
+                      const SearchScreen(),
                     );
                   },
                 ),

@@ -16,7 +16,6 @@ void main() async {
 
   DioHelper.init();
   await CacheHelper.init();
-
   bool? onBoarding = false;
   onBoarding = CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'token');
@@ -33,7 +32,6 @@ void main() async {
   } else {
     widget = const OnBoardingScreen();
   }
-
 
   BlocOverrides.runZoned(
     () {

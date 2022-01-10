@@ -4,24 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/model/categories_model.dart';
 import 'package:shop_app/model/home_model.dart';
+import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/cubit/shop_cubit.dart';
 import 'package:shop_app/shared/cubit/shop_states.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 class ProductsScreen extends StatelessWidget {
+
   const ProductsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is ShopChangeFavouriteSuccessState)
+        {
+          if(!state.favouriteModel.status!)
+          {
+            showToast(message: state.favouriteModel.message.toString());
+          }
+        }
+      },
       builder: (context, state) {
         return ConditionalBuilder(
           condition: ShopCubit.get(context).homeModel != null &&
               ShopCubit.get(context).categoriesModel != null,
           builder: (context) => productBuilder(
-              ShopCubit.get(context).homeModel!,
-              ShopCubit.get(context).categoriesModel!),
+            ShopCubit.get(context).homeModel!,
+            ShopCubit.get(context).categoriesModel!,
+            context,
+          ),
           fallback: (context) =>
               const Center(child: CircularProgressIndicator()),
         );
@@ -29,7 +41,8 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget productBuilder(HomeModel hModel, CategoriesModel categoriesModel) =>
+  Widget productBuilder(HomeModel hModel, CategoriesModel categoriesModel,
+          BuildContext context) =>
       SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -111,7 +124,8 @@ class ProductsScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 children: List.generate(
                   hModel.data!.products!.length,
-                  (index) => buildGridProduct(hModel.data!.products![index]),
+                  (index) =>
+                      buildGridProduct(hModel.data!.products![index], context),
                 ),
               ),
             ),
@@ -119,7 +133,8 @@ class ProductsScreen extends StatelessWidget {
         ),
       );
 
-  Widget buildGridProduct(ProductModel model) => Container(
+  Widget buildGridProduct(ProductModel model, BuildContext context) =>
+      Container(
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,41 +175,57 @@ class ProductsScreen extends StatelessWidget {
                       fontSize: 14.0,
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        '${model.price.round()}',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: primaryColor,
-                          height: 1.3,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      if (model.discount != 0)
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(
+                      end: 5.0,
+                      start: 5.0,
+                    ),
+                    child: Row(
+                      children: [
                         Text(
-                          '${model.oldPrice.round()}',
+                          '${model.price.round()}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.grey,
-                              height: 1.3,
-                              fontSize: 10.0,
-                              decoration: TextDecoration.lineThrough),
+                          style: TextStyle(
+                            color: primaryColor,
+                            height: 1.3,
+                            fontSize: 14.0,
+                          ),
                         ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.favorite,
-                          size: 14.0,
+                        const SizedBox(
+                          width: 5,
                         ),
-                      ),
-                    ],
+                        if (model.discount != 0)
+                          Text(
+                            '${model.oldPrice.round()}',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.grey,
+                                height: 1.3,
+                                fontSize: 10.0,
+                                decoration: TextDecoration.lineThrough),
+                          ),
+                        const Spacer(),
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 15.0,
+                          child: IconButton(
+                            onPressed: () {
+                              ShopCubit.get(context).changeFavourites(model.id);
+                              print(model.id);
+                            },
+                            icon: Icon(
+                              ShopCubit.get(context).favourite[model.id]!
+                                  ? Icons.favorite_outlined
+                                  : Icons.favorite_outline,
+                              size: 18.0,
+                              color: primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
