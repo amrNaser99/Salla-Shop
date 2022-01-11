@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/Module/login/shop_login_cubit/shop_login_cubit.dart';
 import 'package:shop_app/Module/search/search_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/cubit/shop_cubit.dart';
@@ -10,14 +11,26 @@ class ShopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => ShopCubit()..geHomeData()..getCategoriesData()..getFavourites(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (BuildContext context) => ShopLoginCubit()),
+        BlocProvider(
+          create: (BuildContext context) => ShopCubit()
+            ..geHomeData()
+            ..getCategoriesData()
+            ..getFavourites()
+            ..getProfile(),
+        )
+      ],
       child: BlocConsumer<ShopCubit, ShopStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Salla',style:TextStyle( fontSize: 20.0),),
+              title: const Text(
+                'Salla',
+                style: TextStyle(fontSize: 20.0),
+              ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.search),

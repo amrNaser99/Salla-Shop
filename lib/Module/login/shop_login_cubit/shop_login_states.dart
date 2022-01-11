@@ -6,13 +6,6 @@ class ShopLoginInitialStates extends ShopLoginStates {}
 
 class ShopLoginLoadingStates extends ShopLoginStates {}
 
-class ShopLoginSuccessStates extends ShopLoginStates {
-  final ShopLoginModel userModel;
-
-  ShopLoginSuccessStates(this.userModel);
-
-}
-
 class ShopLoginErrorStates extends ShopLoginStates {
   final String error;
 
@@ -33,5 +26,12 @@ class ShopRegisterErrorStates extends ShopLoginStates {
   final String error;
 
   ShopRegisterErrorStates(this.error);
+
+}
+
+class ShopLoginSuccessStates extends ShopLoginStates {
+  final ShopLoginModel userModel;
+
+  ShopLoginSuccessStates(this.userModel);
 
 }

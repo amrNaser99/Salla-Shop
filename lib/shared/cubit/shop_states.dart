@@ -1,5 +1,6 @@
 import 'package:shop_app/model/change_favourite_model.dart';
 import 'package:shop_app/model/favourites_model.dart';
+import 'package:shop_app/model/profile_model.dart';
 
 abstract class ShopStates {}
 
@@ -47,3 +48,20 @@ class ShopGetFavouritesErrorState extends ShopStates{
 
   ShopGetFavouritesErrorState(this.error);
 }
+
+class ShopLoadingUserDataState extends ShopStates{}
+
+class ShopUserDataSuccessState extends ShopStates{
+  final ProfileModel profileModel ;
+
+  ShopUserDataSuccessState(this.profileModel);
+
+
+}
+class ShopUserDataErrorState extends ShopStates{
+  final String error;
+
+  ShopUserDataErrorState(this.error);
+
+}
+

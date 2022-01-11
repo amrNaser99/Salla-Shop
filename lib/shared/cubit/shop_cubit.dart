@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/Module/login/shop_login_screen.dart';
 import 'package:shop_app/Module/nav_bar/categories/categories_screen.dart';
 import 'package:shop_app/Module/nav_bar/favourite/favourite_screen.dart';
 import 'package:shop_app/Module/nav_bar/home/products_screen.dart';
@@ -9,9 +10,12 @@ import 'package:shop_app/model/categories_model.dart';
 import 'package:shop_app/model/change_favourite_model.dart';
 import 'package:shop_app/model/favourites_model.dart';
 import 'package:shop_app/model/home_model.dart';
+import 'package:shop_app/model/profile_model.dart';
+import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/cubit/shop_states.dart';
 import 'package:shop_app/shared/network/end_points.dart';
+import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
@@ -149,6 +153,35 @@ class ShopCubit extends Cubit<ShopStates> {
       emit(ShopGetFavouritesSuccessState(favouriteModel!));
     }).catchError((error) {
       emit(ShopGetFavouritesErrorState(error));
+    });
+  }
+
+
+  ProfileModel? profileModel;
+
+  void getProfile() {
+    emit(ShopLoadingUserDataState());
+    DioHelper.getData(
+      url: FAVOURITE,
+      token: token,
+    ).then((value) {
+      print(
+          'Get Profile value.data.......................................................');
+      print(value.data);
+      profileModel = ProfileModel.fromJson(value.data);
+      print('Get ProfileModel ....................................');
+      print(value.data.toString());
+      emit(ShopUserDataSuccessState(profileModel!));
+    }).catchError((error) {
+      emit(ShopUserDataErrorState(error));
+    });
+  }
+
+
+  void signOut(context,key)
+  {
+    CacheHelper.removeData(key: key).then((value) {
+      NavigateAndFinish(context, const ShopLoginScreen());
     });
   }
 }
