@@ -6,9 +6,7 @@ class ProfileModel
   ProfileModel.fromJson(Map<String,dynamic> json)
   {
     status = json['status'];
-    data = (json['data'] as Map<String, dynamic>?) != null
-    ? Data.fromJson(json['data'] as Map<String, dynamic>)
-        : null ;
+    data = Data.fromJson(json['data'] as Map<String, dynamic>);
   }
 }
 

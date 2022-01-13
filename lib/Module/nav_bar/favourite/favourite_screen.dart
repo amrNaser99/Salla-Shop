@@ -7,7 +7,7 @@ import 'package:shop_app/shared/cubit/shop_states.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 class FavouriteScreen extends StatelessWidget {
-  const FavouriteScreen({Key? key}) : super(key: key);
+  FavouriteScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class FavouriteScreen extends StatelessWidget {
           builder: (context) => ListView.separated(
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) => buildFavItem(
+            itemBuilder: (context, index) => buildListItem(
                 ShopCubit.get(context).favouriteModel!.data!.data![index],
                 context),
             separatorBuilder: (context, index) => Padding(
@@ -38,7 +38,7 @@ class FavouriteScreen extends StatelessWidget {
     );
   }
 
-  Widget buildFavItem(FavouritesData data, BuildContext context) => Padding(
+  Widget buildListItem(data,context) => Padding(
         padding: const EdgeInsets.all(20.0),
         child: SizedBox(
           height: 120,

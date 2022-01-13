@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/Module/login/shop_login_cubit/shop_login_cubit.dart';
 import 'package:shop_app/Module/search/search_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/cubit/shop_cubit.dart';
@@ -11,17 +10,14 @@ class ShopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (BuildContext context) => ShopLoginCubit()),
-        BlocProvider(
-          create: (BuildContext context) => ShopCubit()
-            ..geHomeData()
-            ..getCategoriesData()
-            ..getFavourites()
-            ..getProfile(),
-        )
-      ],
+    return BlocProvider(
+      create: (BuildContext context) =>
+      ShopCubit()
+        ..geHomeData()
+        ..getCategoriesData()
+        ..getFavourites()
+        ..getProfile()
+      ,
       child: BlocConsumer<ShopCubit, ShopStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -37,14 +33,17 @@ class ShopLayout extends StatelessWidget {
                   onPressed: () {
                     NavigateTo(
                       context,
-                      const SearchScreen(),
+                       SearchScreen(),
                     );
                   },
                 ),
               ],
             ),
-            body: ShopCubit.get(context)
-                .screens[ShopCubit.get(context).currentIndex],
+            body: ShopCubit
+                .get(context)
+                .screens[ShopCubit
+                .get(context)
+                .currentIndex],
             bottomNavigationBar: BottomNavigationBar(
               items: const [
                 BottomNavigationBarItem(
@@ -60,11 +59,13 @@ class ShopLayout extends StatelessWidget {
                   label: 'Favourite',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Setting',
+                  icon: Icon(Icons.person_pin_circle_sharp),
+                  label: 'Profile',
                 ),
               ],
-              currentIndex: ShopCubit.get(context).currentIndex,
+              currentIndex: ShopCubit
+                  .get(context)
+                  .currentIndex,
               onTap: (index) {
                 ShopCubit.get(context).changeNavBarItems(index);
               },
@@ -73,5 +74,7 @@ class ShopLayout extends StatelessWidget {
         },
       ),
     );
+
+
   }
 }

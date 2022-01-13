@@ -11,7 +11,7 @@ import 'package:shop_app/shared/styles/colors.dart';
 
 class ProductsScreen extends StatelessWidget {
 
-  const ProductsScreen({Key? key}) : super(key: key);
+  ProductsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

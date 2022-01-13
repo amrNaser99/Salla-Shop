@@ -1,28 +1,24 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/Module/login/shop_login_cubit/shop_login_states.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/cubit/shop_cubit.dart';
 import 'package:shop_app/shared/cubit/shop_states.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
-class SettingScreen extends StatelessWidget {
-  SettingScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatelessWidget {
 
-  var UserNameController = TextEditingController();
-  var EmailController = TextEditingController();
-  var PhoneController = TextEditingController();
+  var userNameController = TextEditingController();
+  var emailController = TextEditingController();
+  var phoneController = TextEditingController();
+
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (BuildContext context, state) {
-        if (state is ShopLoginSuccessStates)
-        {
-          // print(state.profileModel.data!.name!);
-          // UserNameController.text = ShopCubit.get(context).profileModel!.data!.name!;
-        }
       },
       builder: (BuildContext context, state) {
         return Padding(
@@ -44,10 +40,13 @@ class SettingScreen extends StatelessWidget {
             height: 40.0,
           ),
           TextFormField(
-            controller: UserNameController,
+            style: const TextStyle(
+              color: Colors.black
+            ),
+            controller: userNameController,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
-              labelText: 'UserName : ',
+              labelText: 'UserName: ${ShopCubit.get(context).profileModel!.data!.name!}',
               border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
               prefixIcon: const Icon(Icons.alternate_email_sharp),
@@ -58,10 +57,10 @@ class SettingScreen extends StatelessWidget {
             height: 20.0,
           ),
           TextFormField(
-            controller: EmailController,
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              labelText: 'Email ',
+              labelText: 'Email: ${ShopCubit.get(context).profileModel!.data!.email!}',
               border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
               prefixIcon: const Icon(Icons.email_rounded),
@@ -72,10 +71,10 @@ class SettingScreen extends StatelessWidget {
             height: 20.0,
           ),
           TextFormField(
-            controller: PhoneController,
+            controller: phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-              labelText: 'Phone ',
+              labelText: 'Phone: ${ShopCubit.get(context).profileModel!.data!.phone!}',
               border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
               prefixIcon: const Icon(Icons.phone_iphone),

@@ -5,7 +5,7 @@ import 'package:shop_app/Module/login/shop_login_screen.dart';
 import 'package:shop_app/Module/nav_bar/categories/categories_screen.dart';
 import 'package:shop_app/Module/nav_bar/favourite/favourite_screen.dart';
 import 'package:shop_app/Module/nav_bar/home/products_screen.dart';
-import 'package:shop_app/Module/nav_bar/setting/setting_screen.dart';
+import 'package:shop_app/Module/nav_bar/profile/profile_screen.dart';
 import 'package:shop_app/model/categories_model.dart';
 import 'package:shop_app/model/change_favourite_model.dart';
 import 'package:shop_app/model/favourites_model.dart';
@@ -29,7 +29,7 @@ class ShopCubit extends Cubit<ShopStates> {
     ProductsScreen(),
     CategoryScreen(),
     FavouriteScreen(),
-    SettingScreen(),
+    ProfileScreen(),
   ];
 
   void changeNavBarItems(int index) {
@@ -57,9 +57,9 @@ class ShopCubit extends Cubit<ShopStates> {
           element.id: element.inFavourite,
         });
       });
-      print("pruduct id is ");
-      print(homeModel?.data?.products![1].id);
-      print('favourite list is  ${favourite.toString()}');
+      // print("pruduct id is ");
+      // print(homeModel?.data?.products![1].id);
+      // print('favourite list is  ${favourite.toString()}');
       emit(ShopHomeDataSuccessState());
     }).catchError((error) {
       print(error.toString());
@@ -102,17 +102,16 @@ class ShopCubit extends Cubit<ShopStates> {
 
     DioHelper.postData(
       url: FAVOURITE,
-      data: {
-        'product_id': productId },
+      data: {'product_id': productId},
       token: token,
     ).then((value) {
       print(value.data);
       changeFavouriteModel = ChangeFavouriteModel.fromJson(value.data);
 
-      print('Product number ${changeFavouriteModel!.data!.product!.id!} changed');
+      // print('Product number ${changeFavouriteModel!.data!.product!.id!} changed');
 
-    // print('Product id   is $productId');
-    // print('favourite after is ${favourite[productId]}');
+      // print('Product id   is $productId');
+      // print('favourite after is ${favourite[productId]}');
 
       if (!changeFavouriteModel!.status!) {
         if (favourite[productId] == true) {
@@ -121,7 +120,7 @@ class ShopCubit extends Cubit<ShopStates> {
           favourite[productId] = true;
         }
         emit(ShopChangeFavouriteSuccessState(changeFavouriteModel!));
-      }else {
+      } else {
         getFavourites();
       }
     }).catchError((error) {
@@ -143,26 +142,25 @@ class ShopCubit extends Cubit<ShopStates> {
       url: FAVOURITE,
       token: token,
     ).then((value) {
-      print(
-          'Get Favourite value.data.......................................................');
-      print(value.data);
+      // print(
+      // 'Get Favourite value.data.......................................................');
+      // print(value.data);
       favouriteModel = FavouriteModel.fromJson(value.data);
-      print('Get Favourites ....................................');
-      print(favouriteModel!.data!.data!.length);
-      print(value.data.toString());
+      // print('Get Favourites ....................................');
+      // print(favouriteModel!.data!.data!.length);
+      // print(value.data.toString());
       emit(ShopGetFavouritesSuccessState(favouriteModel!));
     }).catchError((error) {
       emit(ShopGetFavouritesErrorState(error));
     });
   }
 
-
   ProfileModel? profileModel;
 
   void getProfile() {
     emit(ShopLoadingUserDataState());
     DioHelper.getData(
-      url: FAVOURITE,
+      url: PROFILE,
       token: token,
     ).then((value) {
       print(
@@ -170,18 +168,25 @@ class ShopCubit extends Cubit<ShopStates> {
       print(value.data);
       profileModel = ProfileModel.fromJson(value.data);
       print('Get ProfileModel ....................................');
-      print(value.data.toString());
+      print(profileModel!.data!.email!);
       emit(ShopUserDataSuccessState(profileModel!));
     }).catchError((error) {
       emit(ShopUserDataErrorState(error));
     });
   }
 
-
-  void signOut(context,key)
-  {
+  void signOut(context, key) {
     CacheHelper.removeData(key: key).then((value) {
       NavigateAndFinish(context, const ShopLoginScreen());
     });
+  }
+
+  IconData changeIconFav(index){
+    if(favourite[favouriteModel!.data!.data![index].id]! == true)
+    {
+      return Icons.favorite_outlined;
+    } else {
+      return Icons.favorite_outline;
+    }
   }
 }

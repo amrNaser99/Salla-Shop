@@ -8,6 +8,7 @@ import 'package:shop_app/Module/register/register_cubit/register_states.dart';
 import 'package:shop_app/layout/shop_layout.dart';
 import 'package:shop_app/model/login_model.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/cubit/shop_cubit.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
@@ -127,12 +128,6 @@ class _ShopRegisterScreenState extends State<ShopRegisterScreen> {
                             labelText: 'Phone',
                             hintText: '+20*********',
                             prefixIcon: Icons.local_phone_outlined,
-                            // validate: (value) {
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Please Enter Your Email Address';
-                            //   }
-                            // }
-                            // ,
                           ),
                           const SizedBox(
                             height: 10.0,
@@ -200,6 +195,7 @@ class _ShopRegisterScreenState extends State<ShopRegisterScreen> {
                                     password: passwordController.text,
                                     vPassword: verifyPasswordController.text,
                                   );
+                                  ShopCubit.get(context).getProfile();
                                 }
                               },
                               isUpperCase: true,

@@ -6,7 +6,7 @@ import 'package:shop_app/shared/cubit/shop_cubit.dart';
 import 'package:shop_app/shared/cubit/shop_states.dart';
 
 class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+  CategoryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
